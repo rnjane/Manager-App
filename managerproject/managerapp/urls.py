@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from . import views
 
@@ -9,4 +9,8 @@ urlpatterns = [
     path('register/', views.display_register_page, name='display-register'),
     path('perform-register/', views.perform_register,
          name='perform_registration'),
+
+    path('logout/', auth_views.logout, name='logout'),
+
+    path('oauth/', include('social_django.urls', namespace='social')),
 ]
