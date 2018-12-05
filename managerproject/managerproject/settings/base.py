@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django.contrib.humanize',
     'social_django',
     'managerapp',
     'managerapi',
@@ -150,5 +151,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_URL = 'display-login'
-LOGIN_REDIRECT_URL = 'display-login'
-LOGOUT_URL = 'display-login'
+LOGIN_REDIRECT_URL = 'view-money-models'
+LOGOUT_REDIRECT_URL = 'display-login'

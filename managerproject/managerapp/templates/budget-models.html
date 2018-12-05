@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}Budgets Page{% endblock %}
+{% block addlink %}#newmodelbudget{% endblock %}
+{% block add %}New Model{% endblock %}
+
+{% block content %}
+<div class="modal fade" role="dialog" tabindex="-1" id="newmodelbudget">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">New Budget Model</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" role="form" action="{% url 'create_budget_model' %}" id="newBudget">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div id="successfail"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-12" id="message">
+                            <div class="form-group">
+                                <label for="from-name">Name</label>
+                                <span class="required-input">*</span>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-user-o"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" type="text" name="budget_model_name" required="" placeholder="Model Budget Name"
+                                        id="from-name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <button class="btn btn-primary btn-block" type="reset">
+                                            <i class="fa fa-undo"></i> Reset</button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-primary btn-block" type="submit">Submit
+                                            <i class="fa fa-chevron-circle-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="d-flex d-md-none" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" role="diaendblocklog" tabindex="-1" id="editbudget" aria-labelledby="editbudget">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Budget Model</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="#" method="POST" id="editform">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input class="form-control" id="id" readonly type="hidden">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Budget Model Name</label>
+                        <input class="form-control" id="name" name="name">
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col">
+                                <button class="btn btn-primary btn-block" type="button" data-dismiss="modal">
+                                    <i class="fa fa-edit"></i>Close</button>
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-primary btn-block" type="submit">Edit
+                                    <i class="fa fa-chevron-circle-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" role="dialog" tabindex="-1" id="deletebudget" aria-labelledby="deletebudget">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <h5>Are you sure to remove this budget model?</h5>
+                </div>
+                <input class="form-control" id="amount" readonly type="hidden" />
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="col">
+                            <button class="btn btn-primary btn-block" type="button" data-dismiss="modal">
+                                <i class="fa fa-edit"></i>Close</button>
+                        </div>
+                        <div class="col">
+                            <a class="btn btn-primary btn-block" href="#" id="removelink">Delete
+                                <i class="fa fa-chevron-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main-content-container container-fluid px-4">
+    <!-- Page Header -->
+    <div class="page-header row no-gutters py-4">
+        <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+            <h3 class="page-title">Budget Models</h3>
+        </div>
+    </div>
+    <!-- End Page Header -->
+    <div class="row">
+        {% if budgets%} {% for budget in budgets %}
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+            <div class="card card-small card-post card-post--1">
+                <div class="card-post__image" style="background-image: url('static/images/content-management/13.jpeg');">
+                    <a href="#" class="card-post__category badge badge-pill badge-dark">{{ budget.date_created }}</a>
+                    <div class="card-post__author d-flex">
+                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url('static/images/avatars/0.jpg');"></a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a class="text-fiord-blue" href="{% url 'view_incomes' budget.id %}">{{ budget.name }}</a>
+                    </h5>
+                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Incomes
+                            Kshs.
+                            {{ budget.total_income|intcomma }}</span></p> <br />
+                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Expenses
+                            Kshs.
+                            {{ budget.total_expenses|intcomma }}</span></p>
+                </div>
+            </div>
+        </div>
+        {% endfor %} {% endif %}
+    </div>
+</div>
+
+{% endblock content %}
