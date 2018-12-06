@@ -2,10 +2,7 @@
 {% load static %}
 {% load humanize %}
 {% block title %}Budgets Page{% endblock %}
-{% block addincomelink %}#newincome{% endblock %}
-{% block addincome %}New Model Income{% endblock %}
-{% block addexpenselink %}#newexpense{% endblock %}
-{% block addexpense %}New Model Expense{% endblock %}
+{% block nav %}{% include 'budgetmodeldetailsnav.html' %}{% endblock %}
 
 {% block content %}
 <div class="modal fade" role="dialog" tabindex="-1" id="newincome">
