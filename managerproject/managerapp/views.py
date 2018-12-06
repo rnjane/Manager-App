@@ -36,7 +36,7 @@ def perform_login(request):
             'username'), password=form.cleaned_data.get('password'))
         if response.status_code == status.HTTP_200_OK:
             messages.success(request, response.data['message'])
-            return redirect('view-money-models')
+            return redirect('view_budget_models')
         messages.error(request, response.data['message'])
         return redirect('display-login')
     messages.error(request, form.errors)

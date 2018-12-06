@@ -151,5 +151,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_URL = 'display-login'
-LOGIN_REDIRECT_URL = 'view-money-models'
+LOGIN_REDIRECT_URL = 'view_budget_models'
 LOGOUT_REDIRECT_URL = 'display-login'
