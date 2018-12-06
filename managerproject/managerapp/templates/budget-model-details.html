@@ -2,63 +2,76 @@
 {% load static %}
 {% load humanize %}
 {% block title %}Budgets Page{% endblock %}
-{% block addlink %}#newbudget]{% endblock %}
-{% block add %}New Model{% endblock %}
+{% block addlink %}#newincome{% endblock %}
+{% block add %}New Model Income{% endblock %}
 
 {% block content %}
-<div class="modal fade" role="dialog" tabindex="-1" id="newbudget">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">New Budget Model</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" role="form" action="{% url 'index' %}" id="newBudget">
-                    {% csrf_token %}
-                    <div class="form-row">
-                        <div class="col-md-6">
-                            <div id="successfail"></div>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-12" id="message">
-                            <div class="form-group">
-                                <label for="from-name">Name</label>
-                                <span class="required-input">*</span>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text">
-                                            <i class="fa fa-user-o"></i>
-                                        </span>
-                                    </div>
-                                    <input class="form-control" type="text" name="name" required="" placeholder="Budget Name"
-                                        id="from-name">
-                                </div>
+<div class="modal fade" role="dialog" tabindex="-1" id="newincome">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">New Budget Model Income</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" role="form" action="{% url 'create_model_budget_income' model_budget_id %}" id="newmodelincome">
+                        {% csrf_token %}
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <div id="successfail"></div>
                             </div>
-                            <div class="form-group">
-                                <div class="form-row">
-                                    <div class="col">
-                                        <button class="btn btn-primary btn-block" type="reset">
-                                            <i class="fa fa-undo"></i> Reset</button>
-                                    </div>
-                                    <div class="col">
-                                        <button class="btn btn-primary btn-block" type="submit">Submit
-                                            <i class="fa fa-chevron-circle-right"></i>
-                                        </button>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-12" id="message">
+                                <div class="form-group">
+                                    <label for="from-name">Name</label>
+                                    <span class="required-input">*</span>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fa fa-user-o"></i>
+                                            </span>
+                                        </div>
+                                        <input class="form-control" type="text" name="model_income_name" required="" placeholder="Income Name"
+                                            id="from-name">
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label for="from-name">Amount</label>
+                                    <span class="required-input">*</span>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fa fa-user-o"></i>
+                                            </span>
+                                        </div>
+                                        <input class="form-control" type="number" name="model_income_amount" step="1" required=""
+                                            placeholder="Income Amount" id="from-amount">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="form-row">
+                                        <div class="col">
+                                            <button class="btn btn-primary btn-block" type="reset">
+                                                <i class="fa fa-undo"></i> Reset</button>
+                                        </div>
+                                        <div class="col">
+                                            <button class="btn btn-primary btn-block" type="submit">Submit
+                                                <i class="fa fa-chevron-circle-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr class="d-flex d-md-none" />
                             </div>
-                            <hr class="d-flex d-md-none" />
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 <div class="modal fade" role="diaendblocklog" tabindex="-1" id="editbudget" aria-labelledby="editbudget">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">

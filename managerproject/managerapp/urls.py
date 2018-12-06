@@ -17,10 +17,15 @@ urlpatterns = [
     # money budgeting urls
     path('budgets/', views.view_budget_models, name='view-money-dashboard'),
     path('budget-models/', views.view_budget_models, name='view_budget_models'),
-    path('budget-model-details/', views.budget_model_details,
+    path('budget-model-details/<int:model_budget_id>/', views.budget_model_details,
          name='budget_model_details'),
     path('create-budget-model/', views.create_budget_model,
          name='create_budget_model'),
+     
+     #budget model expenses urls
+
+     #budget model incomes urls
+     path('create-model-budget-income/<int:model_budget_id>/', views.create_model_budget_income, name='create_model_budget_income'),
 
     # time budgeting urls
     path('time/', views.view_time_dashboard, name='view-time-dashboard'),
