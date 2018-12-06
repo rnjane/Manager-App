@@ -21,11 +21,14 @@ urlpatterns = [
          name='budget_model_details'),
     path('create-budget-model/', views.create_budget_model,
          name='create_budget_model'),
-     
-     #budget model expenses urls
 
-     #budget model incomes urls
-     path('create-model-budget-income/<int:model_budget_id>/', views.create_model_budget_income, name='create_model_budget_income'),
+    # budget model expenses urls
+    path('create-model-budget-expense/<int:model_budget_id>/',
+         views.create_model_budget_expense, name='create_model_budget_expense'),
+
+    # budget model incomes urls
+    path('create-model-budget-income/<int:model_budget_id>/',
+         views.create_model_budget_income, name='create_model_budget_income'),
 
     # time budgeting urls
     path('time/', views.view_time_dashboard, name='view-time-dashboard'),

@@ -23,3 +23,8 @@ class ModelIncomeForm(forms.ModelForm):
     class Meta:
         model = models.ModelIncome
         fields = ['model_income_name', 'model_income_amount']
+
+class ModelExpenseForm(forms.ModelForm):
+    class Meta:
+        model = models.ModelExpense
+        fields = ['model_expense_name', 'model_expense_amount']

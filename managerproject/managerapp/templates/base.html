@@ -130,8 +130,10 @@
                                     <span class="d-none d-md-inline-block">{{ user.username }}</span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-small">
-                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="{% block addlink %}{% endblock %}">
-                                        <i class="material-icons">note_add</i>{% block add %}{% endblock %}</a>
+                                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="{% block addincomelink %}{% endblock %}">
+                                        <i class="material-icons">note_add</i>{% block addincome %}{% endblock %}</a>
+                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="{% block addexpenselink %}{% endblock %}">
+                                                <i class="material-icons">note_add</i>{% block addexpense %}{% endblock %}</a>
                                     <a class="dropdown-item" href="user-profile-lite.html">
                                         <i class="material-icons">&#xE7FD;</i> Profile</a>
                                     <div class="dropdown-divider"></div>
