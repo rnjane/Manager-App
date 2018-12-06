@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from rest_framework import status
-from . import forms, user_auth, budget_models
+from django.shortcuts import get_object_or_404
+from . import forms, user_auth, budget_models, models
 
 
 def index(request):
@@ -58,11 +59,6 @@ def view_time_models(request):
 
 
 @login_required
-def budget_model_details(request, model_budget_id):
-    return render(request, 'budget-model-details.html', {'model_budget_id': model_budget_id})
-
-
-@login_required
 def create_budget_model(request):
     form = forms.ModelBudgetForm(request.POST)
     if form.is_valid():
@@ -102,6 +98,7 @@ def create_model_budget_income(request, model_budget_id):
     messages.error(request, form.errors)
     return redirect('budget_model_details', model_budget_id=model_budget_id)
 
+
 @login_required
 def create_model_budget_expense(request, model_budget_id):
     '''view to create a new budget model expense'''
@@ -118,3 +115,14 @@ def create_model_budget_expense(request, model_budget_id):
         return redirect('budget_model_details', model_budget_id=model_budget_id)
     messages.error(request, form.errors)
     return redirect('budget_model_details', model_budget_id=model_budget_id)
+
+
+@login_required
+def budget_model_details(request, model_budget_id):
+    incomes = budget_models.view_budget_model_incomes(
+        request=request, budget_id=model_budget_id)
+    expenses = budget_models.view_budget_model_expenses(
+        request=request, budget_id=model_budget_id)
+    model_budget_name = get_object_or_404(
+        models.BudgetModel, pk=model_budget_id)
+    return render(request, 'budget-model-details.html', {'model_budget_id': model_budget_id, 'model_incomes': incomes, 'model_expenses': expenses, 'name': model_budget_name})

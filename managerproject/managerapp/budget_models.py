@@ -1,5 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import response, status
+from django.shortcuts import get_list_or_404
 from .models import BudgetModel, ModelIncome, ModelExpense
 
 
@@ -44,3 +45,11 @@ def create_budget_model_expense(request, name, amount, budget_id):
             model_expense_name=name, model_expense_amount=amount, budget_model_id=budget_id)
         new_budget_model_expense.save()
         return response.Response({'new_model_budget_expense': new_budget_model_expense, 'message': 'Expense created succesfully!'}, status=status.HTTP_201_CREATED)
+
+def view_budget_model_incomes(request, budget_id):
+    '''view all incomes in a certain budget model'''
+    return get_list_or_404(ModelIncome, budget_model_id=budget_id)
+
+def view_budget_model_expenses(request, budget_id):
+    '''view all expenses in a certain budget model'''
+    return get_list_or_404(ModelExpense, budget_model_id=budget_id)

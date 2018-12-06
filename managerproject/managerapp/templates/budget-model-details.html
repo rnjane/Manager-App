@@ -142,7 +142,7 @@
     <!-- Page Header -->
     <div class="page-header row no-gutters py-4">
         <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-            <h3 class="page-title">Model Incomes</h3>
+            <h3 class="page-title">{{ name }} Budget Model Incomes</h3>
         </div>
         <div class="col-12 col-sm-4 text-right text-sm-right mb-0">
             {% include 'messages.html' %}
@@ -157,7 +157,7 @@
               <div class="d-flex flex-column m-auto">
                 <div class="stats-small__data text-center">
                   <span class="stats-small__label text-uppercase">{{ model_income.model_income_name}}</span>
-                  <h6 class="stats-small__value count my-3">Amount: Ksh. {{ model_income.model_income_amount }}</h6>
+                  <h6 class="stats-small__value count my-3">Ksh. {{ model_income.model_income_amount }}</h6>
                 </div>
               </div>
             </div>
@@ -180,7 +180,7 @@
                   <div class="d-flex flex-column m-auto">
                     <div class="stats-small__data text-center">
                       <span class="stats-small__label text-uppercase">{{ model_expense.model_expense_name }}</span>
-                      <h6 class="stats-small__value count my-3">Amount: Ksh. {{ model_expense.model_expense_amount }}</h6>
+                      <h6 class="stats-small__value count my-3">Ksh. {{ model_expense.model_expense_amount }}</h6>
                     </div>
                   </div>
                 </div>
