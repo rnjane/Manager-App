@@ -2,7 +2,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import response, status
 from .models import BudgetModel
 
-
 def create_budget(request, name):
     '''This method handles creation of a budget model'''
     try:
@@ -12,3 +11,8 @@ def create_budget(request, name):
         new_budget_model = BudgetModel(budget_model_owner=request.user, budget_model_name=name)
         new_budget_model.save()
         return response.Response({'new_budget': new_budget_model}, status=status.HTTP_201_CREATED)
+
+def view_model_budgets(request):
+    '''This method gets all model budgets for a particular user'''
+    budget_models = BudgetModel.objects.filter(budget_model_owner=request.user)
+    return response.Response({'budget_models': budget_models}, status=status.HTTP_200_OK)

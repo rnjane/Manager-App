@@ -15,8 +15,8 @@ urlpatterns = [
     path('oauth/', include('social_django.urls', namespace='social')),
 
     # money budgeting urls
-    path('budgets/', views.view_money_dashboard, name='view-money-dashboard'),
-    path('budget-models/', views.view_money_models, name='view_money_models'),
+    path('budgets/', views.view_budget_models, name='view-money-dashboard'),
+    path('budget-models/', views.view_budget_models, name='view_budget_models'),
     path('budget-model-details/', views.budget_model_details,
          name='budget_model_details'),
     path('create-budget-model/', views.create_budget_model,

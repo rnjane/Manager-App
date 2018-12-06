@@ -39,10 +39,6 @@ def perform_login(request):
         return redirect('display-login')
 
 @login_required
-def view_money_dashboard(request):
-    return render(request, 'money-dashboard.html')
-
-@login_required
 def view_time_dashboard(request):
     return render(request, 'time-dashboard.html')
 
@@ -70,5 +66,10 @@ def create_budget_model(request):
         else:
             messages.success(request, 'budget model succesfully created')
             return redirect('index')
-    import pdb; pdb.set_trace()
+    messages.error(request, form.errors)
+    return redirect('view_money_models')
 
+@login_required
+def view_budget_models(request):
+    my_budget_models = budget_models.view_model_budgets(request)
+    return render(request, 'budget-models.html', {'budget_models': my_budget_models.data['budget_models']})
