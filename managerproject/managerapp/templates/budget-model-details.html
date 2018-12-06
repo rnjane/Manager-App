@@ -136,20 +136,22 @@
         </div>
     </div>
     <div class="row">
-        {% for i in "x"|rjust:"5" %}
+        {% if model_incomes %}
+        {% for model_income in model_incomes %}
         <div class="col-lg col-md-6 col-sm-6 mb-4">
           <div class="stats-small stats-small--1 card card-small">
             <div class="card-body p-0 d-flex">
               <div class="d-flex flex-column m-auto">
                 <div class="stats-small__data text-center">
-                  <span class="stats-small__label text-uppercase">Sample Income</span>
-                  <h6 class="stats-small__value count my-3">Ksh. 2,390</h6>
+                  <span class="stats-small__label text-uppercase">{{ model_income.model_income_name}}</span>
+                  <h6 class="stats-small__value count my-3">Amount: Ksh. {{ model_income.model_income_amount }}</h6>
                 </div>
               </div>
             </div>
           </div>
         </div>
         {% endfor %}
+        {% endif %}
       </div>
       <div class="page-header row no-gutters py-4">
             <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
@@ -157,20 +159,22 @@
             </div>
         </div>
         <div class="row">
-            {% for i in "x"|rjust:"5" %}
+            {% if model_expenses %}
+            {% for model_expense in model_expenses %}
             <div class="col-lg col-md-6 col-sm-6 mb-4">
               <div class="stats-small stats-small--1 card card-small">
                 <div class="card-body p-0 d-flex">
                   <div class="d-flex flex-column m-auto">
                     <div class="stats-small__data text-center">
-                      <span class="stats-small__label text-uppercase">Sample Expense</span>
-                      <h6 class="stats-small__value count my-3">Ksh. 2,390</h6>
+                      <span class="stats-small__label text-uppercase">{{ model_expense.model_expense_name }}</span>
+                      <h6 class="stats-small__value count my-3">Amount: Ksh. {{ model_expense.model_expense_amount }}</h6>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
             {% endfor %}
+            {% endif %}
           </div>
 </div>
 

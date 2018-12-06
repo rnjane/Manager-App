@@ -5,7 +5,7 @@ from rest_framework import status
 from . import forms, user_auth, budget_models
 
 def index(request):
-    return render(request, 'time-dashboard.html')
+    return redirect('view_budget_models')
 
 def display_register_page(request):
     return render(request, 'register.html')
