@@ -134,7 +134,8 @@ def mark_budget_model_active(request, model_budget_id):
 
 @login_required
 def view_my_budgets(request):
-    return render(request, 'budgets.html')
+    response = budgets.view_all_budgets(request)
+    return render(request, 'budgets.html', {'budgets': response.data['budgets']})
 
 
 @login_required
@@ -151,3 +152,61 @@ def create_budget(request):
             return redirect('my_budgets')
     messages.error(request, form.errors)
     return redirect('my_budgets')
+
+#budget incomes
+@login_required
+def create_income(request, budget_id):
+    form = forms.IncomeForm(request.POST or None)
+    if form.is_valid():
+        budgets.create_income(request, budget_id, form.cleaned_data['name'], form.cleaned_data['amount'])
+        return redirect('view_incomes', budget_id=budget_id)
+
+@login_required
+def view_all_incomes(request, budget_id):
+    incomes = budgets.view_all_incomes(request=request, budget_id=budget_id)
+    query = request.GET.get('q')
+    if query:
+        incomes = incomes.filter(name__icontains=query)
+    budget = get_object_or_404(models.BudgetModel, pk=budget_id)
+    return render(request, 'incomes.html', {'incomes': incomes, 'budget': budget})
+
+@login_required
+def edit_income(request, income_id, budget_id):
+    form = IncomeForm(request.POST or None)
+    if form.is_valid():
+        budgets.edit_income(budget_id, income_id, form.cleaned_data['name'], form.cleaned_data['amount'])
+        return redirect('view_incomes', budget_id=budget_id)
+
+@login_required
+def delete_income(request, budget_id, income_id):
+    budgets.delete_income(budget_id, income_id)
+    return redirect('view_incomes', budget_id=budget_id)
+
+#expenses
+@login_required
+def create_expense(request, budget_id):
+    form = ExpenseForm(request.POST or None)
+    if form.is_valid():
+        budgets.create_expense(budget_id, form.cleaned_data['name'], form.cleaned_data['amount'])
+        return redirect('view_expenses', budget_id=budget_id)
+
+@login_required
+def view_all_expenses(request, budget_id):
+    expenses = budgets.view_all_expenses(budget_id)
+    query = request.GET.get('q')
+    if query:
+        expenses = expenses.filter(name__icontains=query)
+    budget = get_object_or_404(models.BudgetModel, pk=budget_id)
+    return render(request, 'expenses.html', {'expenses': expenses, 'budget': budget})
+
+@login_required
+def edit_expense(request, budget_id, expense_id):
+    form = ExpenseForm(request.POST or None)
+    if form.is_valid():
+        budgets.edit_expense(budget_id, expense_id, form.cleaned_data['name'], form.cleaned_data['amount'])
+        return redirect('view_expenses', budget_id=budget_id)
+
+@login_required
+def delete_expense(request, budget_id, expense_id):
+    budgets.delete_expense(budget_id, expense_id)
+    return redirect('view_expenses', budget_id=budget_id)
