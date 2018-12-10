@@ -148,6 +148,9 @@
                         <span class="stats-small__label text-uppercase">{{ budget_model.date_created }}</span>
                         <a href="{% url 'budget_model_details' budget_model.id %}"><h6 class="stats-small__value count my-3">{{ budget_model.budget_model_name }}</h6></a>
                       </div>
+                      <div class="stats-small__data">
+                        <a href="{% url 'mark_budget_model_active' budget_model.id %}" class="btn btn-accent">Mark Active</a>
+                      </div>
                     </div>
                   </div>
                 </div>

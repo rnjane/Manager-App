@@ -14,13 +14,17 @@ urlpatterns = [
     path('logout/', auth_views.logout, name='logout'),
     path('oauth/', include('social_django.urls', namespace='social')),
 
-    # money budgeting urls
-    path('budgets/', views.view_budget_models, name='view-money-dashboard'),
+    #budget urls
+    path('budgets/', views.view_my_budgets, name='my_budgets'),
+    path('create-budget/', views.create_budget, name='create_budget'),
+
+    # money-budget models urls
     path('budget-models/', views.view_budget_models, name='view_budget_models'),
     path('budget-model-details/<int:model_budget_id>/', views.budget_model_details,
          name='budget_model_details'),
     path('create-budget-model/', views.create_budget_model,
          name='create_budget_model'),
+    path('mark-budget-model-active/<int:model_budget_id>', views.mark_budget_model_active, name='mark_budget_model_active'),
 
     # budget model expenses urls
     path('create-model-budget-expense/<int:model_budget_id>/',

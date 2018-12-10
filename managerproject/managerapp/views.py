@@ -67,12 +67,12 @@ def create_budget_model(request):
             request=request, name=budget_model_name)
         if response.status_code == status.HTTP_406_NOT_ACCEPTABLE:
             messages.error(request, response.data['message'])
-            return redirect('view_money_models')
+            return redirect('view_budget_models')
         else:
             messages.success(request, 'budget model succesfully created')
             return redirect('budget_model_details', response.data['new_budget'].id)
     messages.error(request, form.errors)
-    return redirect('view_money_models')
+    return redirect('view_budget_models')
 
 
 @login_required
@@ -119,10 +119,24 @@ def create_model_budget_expense(request, model_budget_id):
 
 @login_required
 def budget_model_details(request, model_budget_id):
-    incomes = budget_models.view_budget_model_incomes(
-        request=request, budget_id=model_budget_id)
-    expenses = budget_models.view_budget_model_expenses(
-        request=request, budget_id=model_budget_id)
+    incomes = (budget_models.view_budget_model_incomes(request=request, budget_id=model_budget_id)).data['model_incomes']
+    expenses = (budget_models.view_budget_model_expenses(request=request, budget_id=model_budget_id)).data['model_expenses']
     model_budget_name = get_object_or_404(
         models.BudgetModel, pk=model_budget_id)
     return render(request, 'budget-model-details.html', {'model_budget_id': model_budget_id, 'model_incomes': incomes, 'model_expenses': expenses, 'name': model_budget_name})
+
+@login_required
+def mark_budget_model_active(request, model_budget_id):
+    response = budget_models.mark_budget_model_active(request=request, model_id=model_budget_id)
+    messages.info(request, response.data['message'])
+    return redirect('view_budget_models')
+
+
+@login_required
+def view_my_budgets(request):
+    return render(request, 'budgets.html')
+
+
+@login_required
+def create_budget(request):
+    pass
