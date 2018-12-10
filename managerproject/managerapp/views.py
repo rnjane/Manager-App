@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from rest_framework import status
 from django.shortcuts import get_object_or_404
-from . import forms, user_auth, budget_models, models
+from . import forms, user_auth, budget_models, models, budgets
 
 
 def index(request):
@@ -139,4 +139,15 @@ def view_my_budgets(request):
 
 @login_required
 def create_budget(request):
-    pass
+    form = forms.BudgetForm(request.POST)
+    if form.is_valid():
+        name = form.cleaned_data['name']
+        response = budgets.create_budget(request=request, budget_name=name)
+        if response.status_code == status.HTTP_201_CREATED:
+            messages.success(request, response.data['message'])
+            return redirect('my_budgets')
+        else:
+            messages.error(request, response.data['message'])
+            return redirect('my_budgets')
+    messages.error(request, form.errors)
+    return redirect('my_budgets')
