@@ -31,8 +31,8 @@ def view_all_budgets(request):
     except ObjectDoesNotExist:
         return response.Response({'budgets': []})
 
-def create_income(request, budget_id, income_name, income_amount):
-    income = models.BudgetIncome(budget_id = budget_id, name = income_name, amount = income_amount)
+def create_income(request, budget_id, income_name, income_amount, category, description):
+    income = models.BudgetIncome(budget_id = budget_id, name = income_name, amount = income_amount, category=category, description=description)
     income.save()
     incomes = models.BudgetIncome.objects.filter(budget_id=budget_id)
     return(incomes)
@@ -74,3 +74,17 @@ def delete_expense(request, budget_id, expense_id):
     expense.delete()
     expenses = models.BudgetExpense.objects.filter(budget_id = budget_id)
     return(expenses)
+
+def get_all_income_categories(request):
+    try:
+        my_categories = models.IncomeCategories.objects.filter(owner=request.user)
+        return response.Response({'income_categories': my_categories}, status=status.HTTP_200_OK)
+    except ObjectDoesNotExist:
+        return response.Response({'income_categoris': []})
+
+def get_all_expense_categories(request):
+    try:
+        my_categories = models.ExpenseCategories.objects.filter(owner=request.user)
+        return response.Response({'expense_categories': my_categories}, status=status.HTTP_200_OK)
+    except ObjectDoesNotExist:
+        return response.Response({'expense_categories': []})
