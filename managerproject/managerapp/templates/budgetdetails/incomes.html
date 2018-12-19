@@ -1,0 +1,235 @@
+{% extends "budgetdetails/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}Budgets Page{% endblock %}
+{% block addlink %}#newincome{% endblock %}
+{% block add %}New Income{% endblock %}
+{% block content %}
+<div class="modal fade" role="dialog" tabindex="-1" id="newincome">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">New Income</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" role="form" action="{% url 'create_income' budget.id %}" id="newincome">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div id="successfail"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-12" id="message">
+                            <div class="form-group">
+                                <label for="from-name">Name</label>
+                                <span class="required-input">*</span>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-user-o"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" type="text" name="name" required="" placeholder="Income Name"
+                                        id="from-name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="from-name">Amount</label>
+                                <span class="required-input">*</span>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-user-o"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" type="number" name="amount" step="1" required=""
+                                        placeholder="Income Amount" id="from-amount">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="from-name">Category</label>
+                                <span class="required-input">*</span>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-user-o"></i>
+                                        </span>
+                                    </div>
+                                    <select class="form-control" name="category" id="category" required="">
+                                        {% for income_category in income_categories %}
+                                        <option selected>{{ income_category}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                    <label for="from-name">Description</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="fa fa-user-o"></i>
+                                            </span>
+                                        </div>
+                                        <textarea class="form-control" placeholder="Description" name="description" id="from-description"></textarea>
+                                    </div>
+                                </div>
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <button class="btn btn-primary btn-block" type="reset">
+                                            <i class="fa fa-undo"></i> Reset</button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-primary btn-block" type="submit">Submit
+                                            <i class="fa fa-chevron-circle-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="d-flex d-md-none" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" role="dialog" tabindex="-1" id="editincome" aria-labelledby="editincome">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Income</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="#" method="POST" id="editform">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input class="form-control" id="id" readonly type="hidden">
+                    </div>
+                    <div class="form-group">
+                        <label for="from-name">New Name</label>
+                        <span class="required-input">*</span>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-user-o"></i>
+                                </span>
+                            </div>
+                            <input class="form-control" type="text" name="name" required="" id="name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="from-name">New Amount</label>
+                        <span class="required-input">*</span>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">
+                                    <i class="fa fa-user-o"></i>
+                                </span>
+                            </div>
+                            <input class="form-control" name="amount" id="amount">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-row">
+                            <div class="col">
+                                <button class="btn btn-primary btn-block" type="button" data-dismiss="modal">
+                                    <i class="fa fa-edit"></i>Close</button>
+                            </div>
+                            <div class="col">
+                                <button class="btn btn-primary btn-block" type="submit">Edit
+                                    <i class="fa fa-chevron-circle-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" role="dialog" tabindex="-1" id="deletebudget" aria-labelledby="deletebudget">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <h5>Are you sure to remove this income?</h5>
+                </div>
+                <input class="form-control" id="amount" readonly type="hidden" />
+                <div class="form-group">
+                    <div class="form-row">
+                        <div class="col">
+                            <button class="btn btn-primary btn-block" type="button" data-dismiss="modal">
+                                <i class="fa fa-edit"></i>Close</button>
+                        </div>
+                        <div class="col">
+                            <a class="btn btn-primary btn-block" href="#" id="removelink">Delete
+                                <i class="fa fa-chevron-circle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="main-content-container container-fluid px-4">
+    <!-- Page Header -->
+    <div class="page-header row no-gutters py-4">
+        <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+            <h3 class="page-title">{{ budget.name }} incomes</h3>
+        </div>
+        <div class="col-12 col-sm-4 text-right text-sm-right mb-0">
+            {% include 'messages.html' %}
+        </div>
+    </div>
+    <!-- End Page Header -->
+    <div class="row">
+        {% if incomes %} {% for income in incomes %}
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+            <div class="card card-small card-post card-post--1">
+                <div class="card card-small card-post card-post--1">
+                    <a href="#" class="card-post__category badge badge-pill badge-dark">{{ income.date_created }}</a>
+                </div>
+                <p></p>
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a class="text-fiord-blue" href="#">{{ income.name }}</a>
+                    </h5>
+                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
+                            {{ income.amount|intcomma }}</span></p> <br />
+                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Category:
+                            {{ income.category }}</span></p> <br />
+                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Desc:
+                            {{ income.description }}</span></p> <br />
+                    <p>
+                        <div>
+                            <button data-toggle="modal" data-target="#editincome" data-id="{{ income.id }}" data-amount="{{ income.amount }}"
+                                data-item="{{ income.name }}" data-budgetid="{{ budget.id }}" class="btn btn-outline-primary btn-sm"
+                                type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button data-toggle="modal" data-target="#deletebudget" data-id="{{ income.id }}" data-item="{{ income.name }}"
+                                data-budgetid="{{ budget.id }}" class="btn btn-outline-primary btn-sm" type="button"
+                                style="width:95px; float: right; display: block" align="right">Delete</button>
+                        </div>
+                    </p>
+                </div>
+            </div>
+        </div>
+        {% endfor %} {% endif %}
+    </div>
+</div>
+{% endblock content %}

@@ -3,7 +3,51 @@
 {% load humanize %}
 {% block title %}Budgets Page{% endblock %}
 {% block nav %}{% include 'budgetmodelsnav.html' %}{% endblock %}
-
+{% block sidebar %}
+<aside class="main-sidebar col-12 col-md-3 col-lg-2 px-0">
+        <div class="main-navbar">
+            <nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
+                <a class="navbar-brand w-100 mr-0" href="{% url 'index' %}" style="line-height: 25px;">
+                    <div class="d-table m-auto">
+                        <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="{% static "images/shards-dashboards-logo.svg" %}" alt="Shards Dashboard">
+                        <span class="d-none d-md-inline ml-1">Manager App</span>
+                    </div>
+                </a>
+                <a class="toggle-sidebar d-sm-inline d-md-none d-lg-none">
+                    <i class="material-icons">&#xE5C4;</i>
+                </a>
+            </nav>
+        </div>
+        <div class="nav-wrapper">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'my_budgets'%}">
+                        <i class="material-icons">dashboard</i>
+                        <span>My Budgets</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'view_budget_models'%}">
+                        <i class="material-icons">dashboard</i>
+                        <span>My Time Allocations</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'view_budget_models'%}">
+                        <i class="material-icons">attach_money</i>
+                        <span>Budgets Models</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'view_budget_models' %}">
+                        <i class="material-icons">access_time</i>
+                        <span>Time Models</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+</aside>
+{% endblock %}
 {% block content %}
 <div class="modal fade" role="dialog" tabindex="-1" id="newmodelbudget">
     <div class="modal-dialog modal-lg" role="document">
@@ -95,7 +139,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" role="dialog" tabindex="-1" id="deletebudget" aria-labelledby="deletebudget">
+<div class="modal fade" role="dialog" tabindex="-1" id="deletebudgetmodel" aria-labelledby="deletebudgetmodel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -127,6 +171,7 @@
         </div>
     </div>
 </div>
+
 <div class="main-content-container container-fluid px-4">
     <!-- Page Header -->
     <div class="page-header row no-gutters py-4">
@@ -134,24 +179,50 @@
             <h3 class="page-title">Budget Models</h3>
         </div>
         <div class="col-12 col-sm-4 text-right text-sm-right mb-0">
-                {% include 'messages.html' %}
-            </div>
+            {% include 'messages.html' %}
+        </div>
     </div>
     <!-- End Page Header -->
     <div class="row">
         {% if budget_models %} {% for budget_model in budget_models %}
-        <div class="col-lg col-md-6 col-sm-6 mb-4">
-                <div class="stats-small stats-small--1 card card-small">
-                  <div class="card-body p-0 d-flex">
-                    <div class="d-flex flex-column m-auto">
-                      <div class="stats-small__data text-center">
-                        <span class="stats-small__label text-uppercase">{{ budget_model.date_created }}</span>
-                        <a href="{% url 'budget_model_details' budget_model.id %}"><h6 class="stats-small__value count my-3">{{ budget_model.budget_model_name }}</h6></a>
-                      </div>
-                    </div>
+        {% if budget_model.current == True %}
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+            <div class="stats-small stats-small--1 card card-small">
+              <div class="card-body p-0 d-flex">
+                <div class="d-flex flex-column m-auto">
+                  <div class="stats-small__data text-center">
+                    <span class="stats-small__label text-uppercase">{{ budget_model.date_created }}</span>
+                    <a href="{% url 'budget_model_details' budget_model.id %}"><h6 class="stats-small__value count my-3">{{ budget_model.budget_model_name }}</h6></a>
+                  </div>
+                  <div class="stats-small__data">
+                    <button class="btn btn-success" type="button" disabled>Active Model</button>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        {% endif %}
+        {% if budget_model.current == False %}
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+            <div class="stats-small stats-small--1 card card-small">
+                <div class="card-body p-0 d-flex">
+                <div class="d-flex flex-column m-auto">
+                    <div class="stats-small__data text-center">
+                    <span class="stats-small__label text-uppercase">{{ budget_model.date_created }}</span>
+                    <a href="{% url 'budget_model_details' budget_model.id %}"><h6 class="stats-small__value count my-3">{{ budget_model.budget_model_name }}</h6></a>
+                    </div>
+                    <div>
+                        <a class="btn btn-outline-primary btn-sm" style="width:95px; float: left; display: block" href="{% url 'mark_budget_model_active' budget_model.id %}">Mark Active</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button data-toggle="modal" data-target="#deletebudgetmodel" data-id="{{ budget_model.id }}" data-item="{{ budget_model.budget_model_name }}"
+                            class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block"
+                            >Delete</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
         {% endfor %} {% endif %}
     </div>
 </div>

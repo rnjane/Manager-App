@@ -21,7 +21,37 @@
 <body class="h-100">
     <div class="container-fluid">
         <div class="row">
-            {% block sidebar %}{% endblock %}
+            <aside class="main-sidebar col-12 col-md-3 col-lg-2 px-0">
+                <div class="main-navbar">
+                    <nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
+                        <a class="navbar-brand w-100 mr-0" href="{% url 'index' %}" style="line-height: 25px;">
+                            <div class="d-table m-auto">
+                                <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="{% static "images/shards-dashboards-logo.svg" %}" alt="Shards Dashboard">
+                                <span class="d-none d-md-inline ml-1">Manager App</span>
+                            </div>
+                        </a>
+                        <a class="toggle-sidebar d-sm-inline d-md-none d-lg-none">
+                            <i class="material-icons">&#xE5C4;</i>
+                        </a>
+                    </nav>
+                </div>
+                <div class="nav-wrapper">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'view_expenses' budget.id %}">
+                                <i class="material-icons">dashboard</i>
+                                <span>Expenses</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'view_incomes' budget.id %}">
+                                <i class="material-icons">dashboard</i>
+                                <span>Incomes</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
             <main class="main-content col-lg-10 col-md-9 col-sm-12 p-0 offset-lg-2 offset-md-3">
                 <div class="main-navbar sticky-top bg-white">
                     <!-- Main Navbar -->
@@ -87,7 +117,15 @@
                                     <img class="user-avatar rounded-circle mr-2" src="{% static "images/avatars/0.jpg" %}" alt="User Avatar">
                                     <span class="d-none d-md-inline-block">{{ user.username }}</span>
                                 </a>
-                                {% block nav %}{% endblock %}
+                                <div class="dropdown-menu dropdown-menu-small">
+                                        <a class="dropdown-item" href="#" data-toggle="modal" data-target="{% block addlink %}{% endblock %}">
+                                            <i class="material-icons">note_add</i>{% block add %}{% endblock %}</a>
+                                        <a class="dropdown-item" href="user-profile-lite.html">
+                                            <i class="material-icons">&#xE7FD;</i> Profile</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item text-danger" href="{% url 'logout' %}">
+                                            <i class="material-icons text-danger">&#xE879;</i> Logout </a>
+                                    </div>
                             </li>
                         </ul>
                         <nav class="nav">
@@ -104,7 +142,7 @@
                 <footer class="main-footer d-flex p-2 px-3 bg-white border-top">
                     <ul class="nav">
                         <li class="nav-item">
-                            <a class="nav-link" href="https://njanelabs.com">About Us</a>
+                            <a class="nav-link" href="#">About Us</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Blog</a>
@@ -131,18 +169,6 @@
     <script src="{% static 'scripts/app/app-blog-overview.1.0.0.js' %}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.min.js"></script>
 
-
-    <script>
-        $('#deletebudgetmodel').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget)
-            var budget = button.data('item')
-            var model_budget_id = button.data('id')
-            var modal = $(this)
-            modal.find('.modal-title').text('Remove Budget model' + budget)
-            var dellink = "/delete-model-budget/" + model_budget_id
-            $("#removelink").attr("href", dellink)
-        })
-    </script>
     <script>
         $('#deletebudget').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
@@ -150,7 +176,7 @@
             var budget_id = button.data('id')
             var modal = $(this)
             modal.find('.modal-title').text('Remove Budget ' + budget)
-            var dellink = "/delete-budget/" + budget_id
+            var dellink = budget_id + "/delete-budget"
             $("#removelink").attr("href", dellink)
         })
     </script>
@@ -194,7 +220,7 @@
         })
     </script>
     <script>
-        $('#deleteincome').on('show.bs.modal', function (event) {
+        $('#deletebudget').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
             var budget = button.data('item')
             var budget_id = button.data('budgetid')

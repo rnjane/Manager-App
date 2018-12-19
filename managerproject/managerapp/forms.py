@@ -28,3 +28,21 @@ class ModelExpenseForm(forms.ModelForm):
     class Meta:
         model = models.ModelExpense
         fields = ['model_expense_name', 'model_expense_amount']
+
+
+class BudgetForm(forms.ModelForm):
+    class Meta:
+        model = models.Budget
+        fields = ['name']
+
+
+class IncomeForm(forms.ModelForm):
+    class Meta:
+        model = models.BudgetIncome
+        fields = ['name', 'amount', 'category']
+
+
+class ExpenseForm(forms.ModelForm):
+    class Meta:
+        model = models.BudgetExpense
+        fields = ['name', 'amount', 'category']
