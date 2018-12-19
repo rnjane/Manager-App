@@ -82,6 +82,12 @@ def view_budget_models(request):
 
 
 @login_required
+def delete_budget_model(request, model_budget_id):
+    budget = get_object_or_404(models.BudgetModel, pk=model_budget_id)
+    budget.delete()
+    return redirect('view_budget_models')
+
+@login_required
 def create_model_budget_income(request, model_budget_id):
     '''view to create a new model budget income'''
     form = forms.ModelIncomeForm(request.POST)
@@ -157,9 +163,15 @@ def create_budget(request):
     messages.error(request, form.errors)
     return redirect('my_budgets')
 
+
+@login_required
+def delete_budget(request, budget_id):
+    budget = get_object_or_404(models.Budget, pk=budget_id)
+    budget.delete()
+    return redirect('my_budgets')
+
+
 # budget incomes
-
-
 @login_required
 def create_income(request, budget_id):
     form = forms.IncomeForm(request.POST or None)

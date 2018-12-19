@@ -17,6 +17,7 @@ urlpatterns = [
     #budget urls
     path('budgets/', views.view_my_budgets, name='my_budgets'),
     path('create-budget/', views.create_budget, name='create_budget'),
+    path('delete-budget/<int:budget_id>/', views.delete_budget, name='delete_budget'),
 
     # money-budget models urls
     path('budget-models/', views.view_budget_models, name='view_budget_models'),
@@ -25,6 +26,7 @@ urlpatterns = [
     path('create-budget-model/', views.create_budget_model,
          name='create_budget_model'),
     path('mark-budget-model-active/<int:model_budget_id>', views.mark_budget_model_active, name='mark_budget_model_active'),
+    path('delete-model-budget/<int:model_budget_id>', views.delete_budget_model, name='delete_model_budget'),
 
     # budget model expenses urls
     path('create-model-budget-expense/<int:model_budget_id>/',
