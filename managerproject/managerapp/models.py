@@ -90,7 +90,6 @@ class IncomeCategories(models.Model):
     def __str__(self):
         return self.name
 
-
 class ExpenseCategories(models.Model):
     name = models.CharField(max_length=30)
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=Decimal('0.00'))
@@ -98,3 +97,29 @@ class ExpenseCategories(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class TimeModel(models.Model):
+    time_model_owner = models.ForeignKey(User, related_name='time_model_owner', on_delete=models.CASCADE)
+    time_model_name = models.CharField(max_length=30)
+    date_created = models.DateTimeField(auto_now_add=True)
+    current = models.BooleanField(default=False)
+
+    def __repr__(self):
+        return self.time_model_name
+
+    class Meta:
+        ordering = ['date_created']
+
+
+class ModelTimeSlot(models.Model):
+    time_model = models.ForeignKey(TimeModel, related_name='time_model', on_delete=models.CASCADE)
+    model_slot_name = models.CharField(max_length=30)
+    model_slot_duration = models.IntegerField()
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __repr__(self):
+        return self.model_slot_name
+
+    class Meta:
+        ordering = ['date_created']

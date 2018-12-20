@@ -89,4 +89,3 @@ def mark_budget_model_active(request, model_id):
         return response.Response({'message': 'Model budget marked active succesfully'}, status=status.HTTP_200_OK)
     else:
         return response.Response({'message': 'There is no budget model with the given model id'}, status=status.HTTP_404_NOT_FOUND)
-    

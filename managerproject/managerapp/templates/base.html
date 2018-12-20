@@ -167,33 +167,6 @@
         })
     </script>
     <script>
-        $('#deleteminiexpense').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget)
-            var mini_expense = button.data('item')
-            var expense_id = button.data('expenseid')
-            var mini_expense_id = button.data('id')
-            var modal = $(this)
-            modal.find('.modal-title').text('Delete mini expense ' + mini_expense)
-            var dellink = "/" + expense_id + "/mini-expense/" + mini_expense_id + "/delete-mini-expense/"
-            $("#removelink").attr("href", dellink)
-        })
-    </script>
-    <script>
-        $('#editminiexpense').on('show.bs.modal', function (event) {
-            var button = $(event.relatedTarget)
-            var name = button.data('item')
-            var expense_id = button.data('expenseid')
-            var mini_expense_id = button.data('id')
-            var amount = button.data('amount')
-            var modal = $(this)
-            modal.find('.modal-title').text('Edit mini-expense ' + name)
-            modal.find('.modal-body #name').val(name)
-            modal.find('.modal-body #amount').val(amount)
-            var editlink = "/" + expense_id + "/mini-expense/" + mini_expense_id + "/edit-mini-expense/"
-            $("#editform").attr("action", editlink)
-        })
-    </script>
-    <script>
         $('#deleteincome').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget)
             var budget = button.data('item')
@@ -245,6 +218,18 @@
             modal.find('.modal-body #amount').val(amount)
             var editlink = "/" + budget_id + "/expense/" + expense_id + "/edit_expense/"
             $("#editform").attr("action", editlink)
+        })
+    </script>
+
+    <script>
+        $('#deletetimemodel').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget)
+            var time = button.data('item')
+            var model_time_id = button.data('id')
+            var modal = $(this)
+            modal.find('.modal-title').text('Remove Budget model' + time)
+            var dellink = "/delete-model-time/" + model_time_id
+            $("#removelink").attr("href", dellink)
         })
     </script>
 </body>

@@ -46,3 +46,15 @@ class ExpenseForm(forms.ModelForm):
     class Meta:
         model = models.BudgetExpense
         fields = ['name', 'amount', 'category']
+
+
+class TimeModelForm(forms.ModelForm):
+    class Meta:
+        model = models.TimeModel
+        fields = ['time_model_name']
+
+
+class TimeSlotForm(forms.ModelForm):
+    class Meta:
+        model = models.ModelTimeSlot
+        fields = ['model_slot_name', 'model_slot_duration']

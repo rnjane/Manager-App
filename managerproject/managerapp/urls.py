@@ -51,4 +51,16 @@ urlpatterns = [
     path('<int:budget_id>/expenses/', views.view_all_expenses, name='view_expenses'),
     path('<int:budget_id>/budget/<int:expense_id>/edit-expense/', views.edit_expense, name='edit_expense'),
     path('<int:budget_id>/budget/<int:expense_id>/delete-expense/', views.delete_expense, name='delete_expense'),
+
+    # time budget models urls
+    path('time-models/', views.view_time_models, name='view_time_models'),
+#     path('time-model-details/<int:model_time_id>/', views.budget_model_details,
+#          name='budget_model_details'),
+    path('create-time-model/', views.create_time_model,
+         name='create_time_model'),
+     path('time-model-details/<int:model_time_id>/', views.time_model_details,
+         name='time_model_details'),
+  
+#     path('mark-budget-model-active/<int:model_budget_id>', views.mark_budget_model_active, name='mark_budget_model_active'),
+    path('delete-time-budget/<int:model_time_id>', views.delete_budget_model, name='delete_time_budget'),
 ]

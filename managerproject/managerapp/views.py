@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from rest_framework import status
 from django.shortcuts import get_object_or_404
-from . import forms, user_auth, budget_models, models, budgets
+from . import forms, user_auth, budget_models, models, budgets, time_models
 
 
 def index(request):
@@ -214,8 +214,6 @@ def delete_income(request, budget_id, income_id):
     return redirect('view_incomes', budget_id=budget_id)
 
 # expenses
-
-
 @login_required
 def create_expense(request, budget_id):
     form = forms.ExpenseForm(request.POST or None)
@@ -245,8 +243,52 @@ def edit_expense(request, budget_id, expense_id):
             budget_id, expense_id, form.cleaned_data['name'], form.cleaned_data['amount'])
         return redirect('view_expenses', budget_id=budget_id)
 
-
 @login_required
 def delete_expense(request, budget_id, expense_id):
     budgets.delete_expense(budget_id, expense_id)
     return redirect('view_expenses', budget_id=budget_id)
+
+#time budgets
+@login_required
+def create_time_model(request):
+    form = forms.TimeModelForm(request.POST)
+    if form.is_valid():
+        time_model_name = form.cleaned_data['time_model_name']
+        response = time_models.create_time_model(
+            request=request, name=time_model_name)
+        if response.status_code == status.HTTP_406_NOT_ACCEPTABLE:
+            messages.error(request, response.data['message'])
+            return redirect('view_time_models')
+        else:
+            messages.success(request, 'time model succesfully created')
+            return redirect('budget_model_details', response.data['new_time'].id)
+    messages.error(request, form.errors)
+    return redirect('view_time_models')
+
+@login_required
+def view_time_models(request):
+    my_time_models = time_models.view_model_times(request)
+    return render(request, 'time-models.html', {'time_models': my_time_models.data['time_models']})
+
+@login_required
+def delete_budget_model(request, model_budget_id):
+    budget = get_object_or_404(models.BudgetModel, pk=model_budget_id)
+    budget.delete()
+    return redirect('view_budget_models')
+
+@login_required
+def mark_time_model_active(request, model_time_id):
+    response = budget_models.mark_budget_model_active(
+        request=request, model_id=model_budget_id)
+    messages.info(request, response.data['message'])
+    return redirect('view_budget_models')
+
+@login_required
+def time_model_details(request, model_budget_id):
+    incomes = (budget_models.view_budget_model_incomes(
+        request=request, budget_id=model_budget_id)).data['model_incomes']
+    expenses = (budget_models.view_budget_model_expenses(
+        request=request, budget_id=model_budget_id)).data['model_expenses']
+    model_budget_name = get_object_or_404(
+        models.BudgetModel, pk=model_budget_id)
+    return render(request, 'budget-model-details.html', {'model_budget_id': model_budget_id, 'model_incomes': incomes, 'model_expenses': expenses, 'name': model_budget_name})
