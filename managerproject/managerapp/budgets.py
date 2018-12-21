@@ -4,7 +4,6 @@ from rest_framework import response, status
 from . import models
 
 def create_budget(request, budget_name):
-    models.Budget
     try:
         models.Budget.objects.get(owner=request.user, name=budget_name)
         return response.Response({'message': 'This name is already in use'}, status=status.HTTP_406_NOT_ACCEPTABLE)

@@ -7,7 +7,7 @@ urlpatterns = [
 
     # authentication urls
     path('login/', views.display_login_page, name='display-login'),
-    path('perform-login/', views.perform_login, name='perform-login'),
+    path('perform-login/', auth_views.login, {'template_name': 'core/login.html'}, name='perform-login'),
     path('register/', views.display_register_page, name='display-register'),
     path('perform-register/', views.perform_register,
          name='perform_registration'),
@@ -59,7 +59,9 @@ urlpatterns = [
      path('time-model-details/<int:model_time_id>/', views.time_model_details,
          name='time_model_details'),
      path('create-time-slot/<int:model_time_id>/', views.create_time_slot, name='create_time_slot'),
-  
-#     path('mark-budget-model-active/<int:model_budget_id>', views.mark_budget_model_active, name='mark_budget_model_active'),
-    path('delete-time-budget/<int:model_time_id>', views.delete_budget_model, name='delete_time_budget'),
+     path('mark-time-model-active/<int:model_time_id>/', views.mark_time_model_active, name='mark_time_model_active'),
+     path('delete-time-budget/<int:model_time_id>', views.delete_budget_model, name='delete_time_budget'),
+
+     #scheduled day
+     # path('create-scheduled-day', views)
 ]

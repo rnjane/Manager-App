@@ -129,3 +129,30 @@ class ModelTimeSlot(models.Model):
 
     class Meta:
         ordering = ['date_created']
+
+
+class CurrentTimeSlot(models.Model):
+    owner = models.ForeignKey(User, related_name='current_time_slot', on_delete=models.CASCADE)
+    name = models.CharField(max_length=30)
+    duration = models.FloatField()
+    weekday = models.BooleanField()
+    
+    def __repr__(self):
+        return self.name
+
+    def get_weekday(self):
+        if self.weekday == True:
+            return 'Weekday'
+        return 'Weekend'
+
+
+class ScheduledDay(models.Model):
+    owner = models.ForeignKey(User, related_name='scheduled_day', on_delete=models.CASCADE)
+    name = models.CharField(max_length=30)
+    date_created = models.DateTimeField(auto_now_add=True)
+
+    def __repr__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['date_created']

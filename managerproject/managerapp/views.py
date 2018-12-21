@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from rest_framework import status
 from django.shortcuts import get_object_or_404
-from . import forms, user_auth, budget_models, models, budgets, time_models
+from . import forms, budget_models, models, budgets, time_models
 
 
 def index(request):
@@ -29,23 +29,11 @@ def display_login_page(request):
     return render(request, 'login.html')
 
 
-def perform_login(request):
-    form = forms.UserLoginForm(request.POST)
-    if form.is_valid():
-        response = user_auth.UserAuth().login(username=form.cleaned_data.get(
-            'username'), password=form.cleaned_data.get('password'))
-        if response.status_code == status.HTTP_200_OK:
-            messages.success(request, response.data['message'])
-            return redirect('view_budget_models')
-        messages.error(request, response.data['message'])
-        return redirect('display-login')
-    messages.error(request, form.errors)
-    return redirect('display-login')
 
 
 @login_required
 def view_time_dashboard(request):
-    return render(request, 'time-dashboard.html')
+    return render(request, 'time.html')
 
 
 @login_required
@@ -278,10 +266,9 @@ def delete_budget_model(request, model_budget_id):
 
 @login_required
 def mark_time_model_active(request, model_time_id):
-    response = budget_models.mark_budget_model_active(
-        request=request, model_id=model_time_id)
+    response = time_models.mark_time_model_active(request=request, model_id=model_time_id)
     messages.info(request, response.data['message'])
-    return redirect('view_budget_models')
+    return redirect('view_time_models')
 
 @login_required
 def time_model_details(request, model_time_id):
@@ -325,3 +312,22 @@ def create_time_slot(request, model_time_id):
         return redirect('time_model_details', model_time_id=model_time_id)
     messages.error(request, form.errors)
     return redirect('time_model_details', model_time_id=model_time_id)
+
+@login_required
+def create_a_scheduled_day(request):
+    form = forms.ScheduledDayForm
+    if form.is_valid():
+        name = form.cleaned_data['name']
+        response = time_models.create_a_scheduled_day(request=request, name=name)
+        if response.status_code == status.HTTP_201_CREATED:
+            messages.success(request, response.data['message'])
+            return redirect('scheduled_days')
+        messages.error(request, response.data['message'])
+        return redirect('scheduled_days')
+    messages.error(request, form.errors)
+    return redirect('scheduled_days')
+
+@login_required
+def view_all_days(request):
+    response = time_models.view_schedled_days(request)
+    return render(request, 'time.html', {'days': response.data['days']})

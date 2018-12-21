@@ -59,3 +59,9 @@ class TimeSlotForm(forms.Form):
     hours = forms.IntegerField()
     minutes = forms.IntegerField()
     weekday = forms.CharField(max_length=30)
+
+
+class ScheduledDayForm(forms.ModelForm):
+    class Meta:
+        model = models.ScheduledDay
+        fields = ['name']
