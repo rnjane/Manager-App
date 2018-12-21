@@ -261,7 +261,7 @@ def create_time_model(request):
             return redirect('view_time_models')
         else:
             messages.success(request, 'time model succesfully created')
-            return redirect('budget_model_details', response.data['new_time'].id)
+            return redirect('time_model_details', response.data['new_time_model'].id)
     messages.error(request, form.errors)
     return redirect('view_time_models')
 
@@ -279,16 +279,49 @@ def delete_budget_model(request, model_budget_id):
 @login_required
 def mark_time_model_active(request, model_time_id):
     response = budget_models.mark_budget_model_active(
-        request=request, model_id=model_budget_id)
+        request=request, model_id=model_time_id)
     messages.info(request, response.data['message'])
     return redirect('view_budget_models')
 
 @login_required
-def time_model_details(request, model_budget_id):
-    incomes = (budget_models.view_budget_model_incomes(
-        request=request, budget_id=model_budget_id)).data['model_incomes']
-    expenses = (budget_models.view_budget_model_expenses(
-        request=request, budget_id=model_budget_id)).data['model_expenses']
-    model_budget_name = get_object_or_404(
-        models.BudgetModel, pk=model_budget_id)
-    return render(request, 'budget-model-details.html', {'model_budget_id': model_budget_id, 'model_incomes': incomes, 'model_expenses': expenses, 'name': model_budget_name})
+def time_model_details(request, model_time_id):
+    time_slots = (time_models.view_time_slots(request=request, time_id=model_time_id)).data['time_slots']
+    model_time_name = get_object_or_404(
+        models.TimeModel, pk=model_time_id)
+    return render(request, 'time-model-details.html', {'model_time_id': model_time_id, 'time_slots': time_slots, 'name': model_time_name})
+
+
+@login_required
+def create_model_budget_income(request, model_budget_id):
+    '''view to create a new model budget income'''
+    form = forms.ModelIncomeForm(request.POST)
+    if form.is_valid():
+        model_income_name = form.cleaned_data['model_income_name']
+        model_income_amount = form.cleaned_data['model_income_amount']
+        response = budget_models.create_budget_model_income(
+            request=request, amount=model_income_amount, name=model_income_name, budget_id=model_budget_id)
+        if response.status_code == status.HTTP_201_CREATED:
+            messages.success(request, response.data['message'])
+            return redirect('budget_model_details', model_budget_id=model_budget_id)
+        messages.error(request, response.data['message'])
+        return redirect('budget_model_details', model_budget_id=model_budget_id)
+    messages.error(request, form.errors)
+    return redirect('budget_model_details', model_budget_id=model_budget_id)
+
+@login_required
+def create_time_slot(request, model_time_id):
+    '''create a time slot'''
+    form = forms.TimeSlotForm(request.POST)
+    if form.is_valid():
+        model_time_name = form.cleaned_data['model_time_slot_name']
+        model_time_hours = form.cleaned_data['hours']
+        model_time_minutes = form.cleaned_data['minutes']
+        weekday = form.cleaned_data['weekday']
+        response = time_models.create_time_slot(request=request, name=model_time_name, hours=model_time_hours, minutes=model_time_minutes, weekday=weekday, time_id=model_time_id)
+        if response.status_code == status.HTTP_201_CREATED:
+            messages.success(request, response.data['message'])
+            return redirect('time_model_details', model_time_id=model_time_id)
+        messages.error(request, response.data['message'])
+        return redirect('time_model_details', model_time_id=model_time_id)
+    messages.error(request, form.errors)
+    return redirect('time_model_details', model_time_id=model_time_id)

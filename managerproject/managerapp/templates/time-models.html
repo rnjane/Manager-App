@@ -155,7 +155,7 @@
                 <div class="d-flex flex-column m-auto">
                   <div class="stats-small__data text-center">
                     <span class="stats-small__label text-uppercase">{{ time_model.date_created }}</span>
-                    <a href="{% url 'budget_model_details' time_model.id %}"><h6 class="stats-small__value count my-3">{{ time_model.time_model_name }}</h6></a>
+                    <a href="{% url 'time_model_details' time_model.id %}"><h6 class="stats-small__value count my-3">{{ time_model.time_model_name }}</h6></a>
                   </div>
                   <div class="stats-small__data">
                     <button class="btn btn-success" type="button" disabled>Active Model</button>
@@ -172,10 +172,10 @@
                 <div class="d-flex flex-column m-auto">
                     <div class="stats-small__data text-center">
                     <span class="stats-small__label text-uppercase">{{ time_model.date_created }}</span>
-                    <a href="{% url 'budget_model_details' time_model.id %}"><h6 class="stats-small__value count my-3">{{ time_model.time_model_name }}</h6></a>
+                    <a href="{% url 'time_model_details' time_model.id %}"><h6 class="stats-small__value count my-3">{{ time_model.time_model_name }}</h6></a>
                     </div>
                     <div>
-                        <a class="btn btn-outline-primary btn-sm" style="width:95px; float: left; display: block" href="{% url 'budget_model_details' time_model.id %}">Mark Active</a>
+                        <a class="btn btn-outline-primary btn-sm" style="width:95px; float: left; display: block" href="{% url 'time_model_details' time_model.id %}">Mark Active</a>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <button data-toggle="modal" data-target="#deletetimemodel" data-id="{{ time_model.id }}" data-item="{{ time_model.time_model_name }}"
                             class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block"

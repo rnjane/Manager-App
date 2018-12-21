@@ -54,7 +54,8 @@ class TimeModelForm(forms.ModelForm):
         fields = ['time_model_name']
 
 
-class TimeSlotForm(forms.ModelForm):
-    class Meta:
-        model = models.ModelTimeSlot
-        fields = ['model_slot_name', 'model_slot_duration']
+class TimeSlotForm(forms.Form):
+    model_time_slot_name = forms.CharField(max_length=30)
+    hours = forms.IntegerField()
+    minutes = forms.IntegerField()
+    weekday = forms.CharField(max_length=30)

@@ -105,7 +105,7 @@ class TimeModel(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     current = models.BooleanField(default=False)
 
-    def __repr__(self):
+    def __str__(self):
         return self.time_model_name
 
     class Meta:
@@ -114,12 +114,18 @@ class TimeModel(models.Model):
 
 class ModelTimeSlot(models.Model):
     time_model = models.ForeignKey(TimeModel, related_name='time_model', on_delete=models.CASCADE)
-    model_slot_name = models.CharField(max_length=30)
-    model_slot_duration = models.IntegerField()
+    model_time_slot_name = models.CharField(max_length=30)
+    model_slot_duration = models.FloatField()
+    weekday = models.BooleanField(default=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
-    def __repr__(self):
-        return self.model_slot_name
+    def __str__(self):
+        return self.model_time_slot_name
+
+    def get_weekday(self):
+        if self.weekday == True:
+            return 'Weekday'
+        return 'Weekend'
 
     class Meta:
         ordering = ['date_created']
