@@ -1,4 +1,4 @@
-{% extends "budgetdetails/base.html" %}
+{% extends "budgets/budgetdetails/base.html" %}
 {% load static %}
 {% load humanize %}
 {% block title %}Budgets Page{% endblock %}
@@ -33,8 +33,8 @@
                                             <i class="fa fa-user-o"></i>
                                         </span>
                                     </div>
-                                    <input class="form-control" type="text" name="name" required="" placeholder="Expense Name"
-                                        id="from-name">
+                                    <input class="form-control" type="text" name="name" required=""
+                                        placeholder="Expense Name" id="from-name">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -51,32 +51,33 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                    <label for="from-name">Category</label>
-                                    <span class="required-input">*</span>
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text">
-                                                <i class="fa fa-user-o"></i>
-                                            </span>
-                                        </div>
-                                        <select class="form-control" name="category" id="category" required="">
-                                            {% for expense_category in expense_categories %}
-                                            <option selected>{{ expense_category}}</option>
-                                            {% endfor %}
-                                        </select>
+                                <label for="from-name">Category</label>
+                                <span class="required-input">*</span>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-user-o"></i>
+                                        </span>
                                     </div>
+                                    <select class="form-control" name="category" id="category" required="">
+                                        {% for expense_category in expense_categories %}
+                                        <option selected>{{ expense_category}}</option>
+                                        {% endfor %}
+                                    </select>
                                 </div>
-                                <div class="form-group">
-                                        <label for="from-name">Description</label>
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                                    <i class="fa fa-user-o"></i>
-                                                </span>
-                                            </div>
-                                            <textarea class="form-control" placeholder="Description" name="description" id="from-description"></textarea>
-                                        </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="from-name">Description</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-user-o"></i>
+                                        </span>
                                     </div>
+                                    <textarea class="form-control" placeholder="Description" name="description"
+                                        id="from-description"></textarea>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <div class="form-row">
                                     <div class="col">
@@ -194,7 +195,7 @@
             <h3 class="page-title">{{ budget.name }} expenses</h3>
         </div>
         <div class="col-12 col-sm-4 text-right text-sm-right mb-0">
-            {% include 'messages.html' %}
+            {% include '../../common/messages.html' %}
         </div>
     </div>
     <!-- End Page Header -->
@@ -202,17 +203,21 @@
         {% if expenses %} {% for expense in expenses %}
         <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
             <div class="card card-small card-post card-post--1">
-                <div class="card-post__image" style="background-image: url({% static 'images/content-management/1.jpeg' %} );">
+                <div class="card-post__image"
+                    style="background-image: url({% static 'images/content-management/1.jpeg' %} );">
                     <a href="#" class="card-post__category badge badge-pill badge-dark">{{ expense.date_created }}</a>
                     <div class="card-post__author d-flex">
-                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small" style="background-image: url({% static 'images/avatars/0.jpg' %});"></a>
+                        <a href="#" class="card-post__author-avatar card-post__author-avatar--small"
+                            style="background-image: url({% static 'images/avatars/0.jpg' %});"></a>
                     </div>
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">
-                        <a class="text-fiord-blue" href="{% url 'view_mini_expenses' expense.id %}">{{ expense.name }}</a>
+                        <a class="text-fiord-blue"
+                            href="{% url 'view_mini_expenses' expense.id %}">{{ expense.name }}</a>
                     </h5>
-                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
+                    <p class="card-text d-inline-block mb-3"><span
+                            class="ml-auto text-right text-semibold text-reagent-gray">Kshs.
                             {{ expense.amount|intcomma }}</span></p>
                     <div class="progress-wrapper">
                         <strong class="text-muted d-block mb-2">Remaining</strong>
@@ -226,11 +231,13 @@
                     <p>
                         <div>
                             <button data-toggle="modal" data-target="#editexpense" data-id="{{ expense.id }}"
-                                data-amount="{{ expense.amount }}" data-item="{{ expense.name }}" data-budgetid="{{ budget.id }}"
-                                class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                data-amount="{{ expense.amount }}" data-item="{{ expense.name }}"
+                                data-budgetid="{{ budget.id }}" class="btn btn-outline-primary btn-sm" type="button"
+                                style="width:95px; float: left; display: block">Edit</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <button data-toggle="modal" data-target="#deleteexpense" data-id="{{ expense.id }}"
-                                data-item="{{ expense.name }}" data-budgetid="{{ budget.id }}" class="btn btn-outline-primary btn-sm"
-                                type="button" style="width:95px; float: right; display: block" align="right">Delete</button>
+                                data-item="{{ expense.name }}" data-budgetid="{{ budget.id }}"
+                                class="btn btn-outline-primary btn-sm" type="button"
+                                style="width:95px; float: right; display: block" align="right">Delete</button>
                         </div>
                     </p>
                 </div>
@@ -240,4 +247,3 @@
     </div>
 </div>
 {% endblock content %}
-

@@ -37,8 +37,8 @@ urlpatterns = [
          views.create_model_budget_income, name='create_model_budget_income'),
 
     # time budgeting urls
-    path('time/', views.view_time_dashboard, name='view-time-dashboard'),
-    path('time-models/', views.view_time_models, name='view-time-models'),
+    path('time/', views.view_time_dashboard, name='view_time_dashboard'),
+    path('time-models/', views.view_time_models, name='view_time_models'),
 
     #budget incomes
     path('<int:budget_id>/create-budget-income/', views.create_income, name='create_income'),

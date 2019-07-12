@@ -6,13 +6,15 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>{% block title %}{% endblock %}</title>
-    <meta name="description" content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
+    <meta name="description"
+        content="A high-quality &amp; free Bootstrap admin dashboard template pack that comes with lots of templates and components.">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-        crossorigin="anonymous">
-    <link rel="stylesheet" id="main-stylesheet" data-version="1.0.0" href="{% static 'styles/shards-dashboards.1.0.0.min.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" id="main-stylesheet" data-version="1.0.0"
+        href="{% static 'styles/shards-dashboards.1.0.0.min.css' %}">
     <link rel="stylesheet" href="{% static 'styles/extras.1.0.0.min.css' %}">
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 </head>
@@ -21,7 +23,9 @@
 <body class="h-100">
     <div class="container-fluid">
         <div class="row">
+
             {% block sidebar %}{% endblock %}
+
             <main class="main-content col-lg-10 col-md-9 col-sm-12 p-0 offset-lg-2 offset-md-3">
                 <div class="main-navbar sticky-top bg-white">
                     <!-- Main Navbar -->
@@ -33,14 +37,15 @@
                                         <i class="fas fa-search"></i>
                                     </div>
                                 </div>
-                                <input class="navbar-search form-control" type="text" name="q" placeholder="Search for something..."
-                                    aria-label="Search">
+                                <input class="navbar-search form-control" type="text" name="q"
+                                    placeholder="Search for something..." aria-label="Search">
                             </div>
                         </form>
                         <ul class="navbar-nav border-left flex-row ">
                             <li class="nav-item border-right dropdown notifications">
-                                <a class="nav-link nav-link-icon text-center" href="#" role="button" id="dropdownMenuLink"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link nav-link-icon text-center" href="#" role="button"
+                                    id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
                                     <div class="nav-link-icon__wrapper">
                                         <i class="material-icons">&#xE7F4;</i>
                                         <span class="badge badge-pill badge-danger">2</span>
@@ -84,15 +89,18 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle text-nowrap px-3" data-toggle="dropdown" href="#"
                                     role="button" aria-haspopup="true" aria-expanded="false">
-                                    <img class="user-avatar rounded-circle mr-2" src="{% static "images/avatars/0.jpg" %}" alt="User Avatar">
+                                    <img class="user-avatar rounded-circle mr-2"
+                                        src="{% static "images/avatars/0.jpg" %}" alt="User Avatar">
                                     <span class="d-none d-md-inline-block">{{ user.username }}</span>
                                 </a>
                                 {% block nav %}{% endblock %}
                             </li>
                         </ul>
                         <nav class="nav">
-                            <a href="#" class="nav-link nav-link-icon toggle-sidebar d-md-inline d-lg-none text-center border-left"
-                                data-toggle="collapse" data-target=".header-navbar" aria-expanded="false" aria-controls="header-navbar">
+                            <a href="#"
+                                class="nav-link nav-link-icon toggle-sidebar d-md-inline d-lg-none text-center border-left"
+                                data-toggle="collapse" data-target=".header-navbar" aria-expanded="false"
+                                aria-controls="header-navbar">
                                 <i class="material-icons">&#xE5D2;</i>
                             </a>
                         </nav>
@@ -117,11 +125,13 @@
             </main>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
     <script src="https://unpkg.com/shards-ui@latest/dist/js/shards.min.js"></script>

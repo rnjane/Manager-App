@@ -9,10 +9,9 @@ from . import forms, user_auth, budget_models, models, budgets
 def index(request):
     return redirect('view_budget_models')
 
-
+#user authentication
 def display_register_page(request):
-    return render(request, 'register.html')
-
+    return render(request, 'user_auth/register.html')
 
 def perform_register(request):
     form = forms.UserForm(request.POST)
@@ -24,10 +23,8 @@ def perform_register(request):
         messages.error(request, form.errors)
         return redirect('display-register')
 
-
 def display_login_page(request):
-    return render(request, 'login.html')
-
+    return render(request, 'user_auth/login.html')
 
 def perform_login(request):
     form = forms.UserLoginForm(request.POST)
@@ -42,22 +39,7 @@ def perform_login(request):
     messages.error(request, form.errors)
     return redirect('display-login')
 
-
-@login_required
-def view_time_dashboard(request):
-    return render(request, 'time-dashboard.html')
-
-
-@login_required
-def view_money_models(request):
-    return render(request, 'budget-models.html')
-
-
-@login_required
-def view_time_models(request):
-    return render(request, 'time-models.html')
-
-
+#budgets views
 @login_required
 def create_budget_model(request):
     form = forms.ModelBudgetForm(request.POST)
@@ -74,12 +56,10 @@ def create_budget_model(request):
     messages.error(request, form.errors)
     return redirect('view_budget_models')
 
-
 @login_required
 def view_budget_models(request):
     my_budget_models = budget_models.view_model_budgets(request)
-    return render(request, 'budget-models.html', {'budget_models': my_budget_models.data['budget_models']})
-
+    return render(request, 'budgets/budget-models.html', {'budget_models': my_budget_models.data['budget_models']})
 
 @login_required
 def delete_budget_model(request, model_budget_id):
@@ -104,7 +84,6 @@ def create_model_budget_income(request, model_budget_id):
     messages.error(request, form.errors)
     return redirect('budget_model_details', model_budget_id=model_budget_id)
 
-
 @login_required
 def create_model_budget_expense(request, model_budget_id):
     '''view to create a new budget model expense'''
@@ -122,7 +101,6 @@ def create_model_budget_expense(request, model_budget_id):
     messages.error(request, form.errors)
     return redirect('budget_model_details', model_budget_id=model_budget_id)
 
-
 @login_required
 def budget_model_details(request, model_budget_id):
     incomes = (budget_models.view_budget_model_incomes(
@@ -131,8 +109,7 @@ def budget_model_details(request, model_budget_id):
         request=request, budget_id=model_budget_id)).data['model_expenses']
     model_budget_name = get_object_or_404(
         models.BudgetModel, pk=model_budget_id)
-    return render(request, 'budget-model-details.html', {'model_budget_id': model_budget_id, 'model_incomes': incomes, 'model_expenses': expenses, 'name': model_budget_name})
-
+    return render(request, 'budgets/budget-model-details.html', {'model_budget_id': model_budget_id, 'model_incomes': incomes, 'model_expenses': expenses, 'name': model_budget_name})
 
 @login_required
 def mark_budget_model_active(request, model_budget_id):
@@ -141,12 +118,10 @@ def mark_budget_model_active(request, model_budget_id):
     messages.info(request, response.data['message'])
     return redirect('view_budget_models')
 
-
 @login_required
 def view_my_budgets(request):
     response = budgets.view_all_budgets(request)
-    return render(request, 'budgets.html', {'budgets': response.data['budgets']})
-
+    return render(request, 'budgets/budgets.html', {'budgets': response.data['budgets']})
 
 @login_required
 def create_budget(request):
@@ -163,13 +138,11 @@ def create_budget(request):
     messages.error(request, form.errors)
     return redirect('my_budgets')
 
-
 @login_required
 def delete_budget(request, budget_id):
     budget = get_object_or_404(models.Budget, pk=budget_id)
     budget.delete()
     return redirect('my_budgets')
-
 
 # budget incomes
 @login_required
@@ -196,7 +169,7 @@ def view_all_incomes(request, budget_id):
     budget = get_object_or_404(models.Budget, pk=budget_id)
     income_categories = budgets.get_all_income_categories(request=request)
     expense_categories = budgets.get_all_expense_categories(request=request)
-    return render(request, 'budgetdetails/incomes.html', {'incomes': incomes, 'budget': budget, 'income_categories': income_categories.data['income_categories'], 'expense_categories': expense_categories.data['expense_categories']})
+    return render(request, 'budgets/budgetdetails/incomes.html', {'incomes': incomes, 'budget': budget, 'income_categories': income_categories.data['income_categories'], 'expense_categories': expense_categories.data['expense_categories']})
 
 
 @login_required
@@ -214,8 +187,6 @@ def delete_income(request, budget_id, income_id):
     return redirect('view_incomes', budget_id=budget_id)
 
 # expenses
-
-
 @login_required
 def create_expense(request, budget_id):
     form = forms.ExpenseForm(request.POST or None)
@@ -234,7 +205,7 @@ def view_all_expenses(request, budget_id):
     budget = get_object_or_404(models.Budget, pk=budget_id)
     income_categories = budgets.get_all_income_categories(request=request)
     expense_categories = budgets.get_all_expense_categories(request=request)
-    return render(request, 'budgetdetails/expenses.html', {'expenses': expenses, 'budget': budget, 'income_categories': income_categories.data['income_categories'], 'expense_categories': expense_categories.data['expense_categories']})
+    return render(request, 'budgets/budgetdetails/expenses.html', {'expenses': expenses, 'budget': budget, 'income_categories': income_categories.data['income_categories'], 'expense_categories': expense_categories.data['expense_categories']})
 
 
 @login_required
@@ -250,3 +221,14 @@ def edit_expense(request, budget_id, expense_id):
 def delete_expense(request, budget_id, expense_id):
     budgets.delete_expense(budget_id, expense_id)
     return redirect('view_expenses', budget_id=budget_id)
+
+
+#time views
+@login_required
+def view_time_dashboard(request):
+    return render(request, 'time/time-dashboard.html')
+
+
+@login_required
+def view_time_models(request):
+    return render(request, 'time/time-models.html')

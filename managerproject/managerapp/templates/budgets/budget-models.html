@@ -1,53 +1,52 @@
-{% extends "base.html" %}
+{% extends "../common/base.html" %}
 {% load static %}
 {% load humanize %}
 {% block title %}Budgets Page{% endblock %}
-{% block addlink %}#newbudget{% endblock %}
-{% block add %}New Budget Model{% endblock %}
-{% block nav %}{% include 'budgetmodelsnav.html' %}{% endblock %}
+{% block nav %}{% include 'budgets/budgetmodelsnav.html' %}{% endblock %}
 {% block sidebar %}
 <aside class="main-sidebar col-12 col-md-3 col-lg-2 px-0">
-        <div class="main-navbar">
-            <nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
-                <a class="navbar-brand w-100 mr-0" href="{% url 'index' %}" style="line-height: 25px;">
-                    <div class="d-table m-auto">
-                        <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;" src="{% static "images/shards-dashboards-logo.svg" %}" alt="Shards Dashboard">
-                        <span class="d-none d-md-inline ml-1">Manager App</span>
-                    </div>
+    <div class="main-navbar">
+        <nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
+            <a class="navbar-brand w-100 mr-0" href="{% url 'index' %}" style="line-height: 25px;">
+                <div class="d-table m-auto">
+                    <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;"
+                        src="{% static "images/shards-dashboards-logo.svg" %}" alt="Shards Dashboard">
+                    <span class="d-none d-md-inline ml-1">Manager App</span>
+                </div>
+            </a>
+            <a class="toggle-sidebar d-sm-inline d-md-none d-lg-none">
+                <i class="material-icons">&#xE5C4;</i>
+            </a>
+        </nav>
+    </div>
+    <div class="nav-wrapper">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'my_budgets'%}">
+                    <i class="material-icons">dashboard</i>
+                    <span>My Budgets</span>
                 </a>
-                <a class="toggle-sidebar d-sm-inline d-md-none d-lg-none">
-                    <i class="material-icons">&#xE5C4;</i>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'view_budget_models'%}">
+                    <i class="material-icons">dashboard</i>
+                    <span>My Time Allocations</span>
                 </a>
-            </nav>
-        </div>
-        <div class="nav-wrapper">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'my_budgets'%}">
-                        <i class="material-icons">dashboard</i>
-                        <span>My Budgets</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'view_budget_models'%}">
-                        <i class="material-icons">dashboard</i>
-                        <span>My Time Allocations</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'view_budget_models'%}">
-                        <i class="material-icons">attach_money</i>
-                        <span>Budgets Models</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'view_budget_models' %}">
-                        <i class="material-icons">access_time</i>
-                        <span>Time Models</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="{% url 'view_budget_models'%}">
+                    <i class="material-icons">attach_money</i>
+                    <span>Budgets Models</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'view_time_models' %}">
+                    <i class="material-icons">access_time</i>
+                    <span>Time Models</span>
+                </a>
+            </li>
+        </ul>
+    </div>
 </aside>
 {% endblock %}
 {% block content %}
@@ -61,7 +60,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="POST" role="form" action="{% url 'create_budget' %}" id="newBudget">
+                <form method="POST" role="form" action="{% url 'create_budget_model' %}" id="newBudget">
                     {% csrf_token %}
                     <div class="form-row">
                         <div class="col-md-6">
@@ -79,8 +78,8 @@
                                             <i class="fa fa-user-o"></i>
                                         </span>
                                     </div>
-                                    <input class="form-control" type="text" name="name" required="" placeholder="Budget Name"
-                                        id="from-name">
+                                    <input class="form-control" type="text" name="budget_model_name" required=""
+                                        placeholder="Model Budget Name" id="from-name">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -141,7 +140,7 @@
         </div>
     </div>
 </div>
-<div class="modal fade" role="dialog" tabindex="-1" id="deletebudget" aria-labelledby="deletebudget">
+<div class="modal fade" role="dialog" tabindex="-1" id="deletebudgetmodel" aria-labelledby="deletebudgetmodel">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -173,39 +172,63 @@
         </div>
     </div>
 </div>
+
 <div class="main-content-container container-fluid px-4">
     <!-- Page Header -->
     <div class="page-header row no-gutters py-4">
         <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
-            <h3 class="page-title">My Budgets</h3>
+            <h3 class="page-title">Budget Models</h3>
+        </div>
+        <div class="col-12 col-sm-4 text-right text-sm-right mb-0">
+            {% include '../common/messages.html' %}
         </div>
     </div>
     <!-- End Page Header -->
     <div class="row">
-        {% if budgets%} {% for budget in budgets %}
+        {% if budget_models %} {% for budget_model in budget_models %}
+        {% if budget_model.current == True %}
         <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-            <div class="card card-small card-post card-post--1">
-                <p></p>
-                <a href="#" class="card-post__category badge badge-pill badge-dark">{{ budget.date_created }}</a>
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <a class="text-fiord-blue" href="{% url 'view_incomes' budget.id %}">Name: {{ budget.name }}</a>
-                    </h5>
-                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Incomes
-                            Kshs.
-                            {{ budget.total_income|intcomma }}</span></p> <br />
-                    <p class="card-text d-inline-block mb-3"><span class="ml-auto text-right text-semibold text-reagent-gray">Expenses
-                            Kshs.
-                            {{ budget.total_expenses|intcomma }}</span></p>
-                    <div>
-                        <a class="btn btn-outline-primary btn-sm" style="width:95px; float: left; display: block" href="{% url 'view_incomes' budget.id %}">Open</a>
-                        <button data-toggle="modal" data-target="#deletebudget" data-id="{{ budget.id }}" data-item="{{ budget.name }}"
-                            class="btn btn-outline-primary btn-sm" type="button" style="width:95px; float: right; display: block"
-                            >Delete</button>
+            <div class="stats-small stats-small--1 card card-small">
+                <div class="card-body p-0 d-flex">
+                    <div class="d-flex flex-column m-auto">
+                        <div class="stats-small__data text-center">
+                            <span class="stats-small__label text-uppercase">{{ budget_model.date_created }}</span>
+                            <a href="{% url 'budget_model_details' budget_model.id %}">
+                                <h6 class="stats-small__value count my-3">{{ budget_model.budget_model_name }}</h6>
+                            </a>
+                        </div>
+                        <div class="stats-small__data">
+                            <button class="btn btn-success" type="button" disabled>Active Model</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        {% endif %}
+        {% if budget_model.current == False %}
+        <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+            <div class="stats-small stats-small--1 card card-small">
+                <div class="card-body p-0 d-flex">
+                    <div class="d-flex flex-column m-auto">
+                        <div class="stats-small__data text-center">
+                            <span class="stats-small__label text-uppercase">{{ budget_model.date_created }}</span>
+                            <a href="{% url 'budget_model_details' budget_model.id %}">
+                                <h6 class="stats-small__value count my-3">{{ budget_model.budget_model_name }}</h6>
+                            </a>
+                        </div>
+                        <div>
+                            <a class="btn btn-outline-primary btn-sm" style="width:95px; float: left; display: block"
+                                href="{% url 'mark_budget_model_active' budget_model.id %}">Mark Active</a>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <button data-toggle="modal" data-target="#deletebudgetmodel" data-id="{{ budget_model.id }}"
+                                data-item="{{ budget_model.budget_model_name }}" class="btn btn-outline-primary btn-sm"
+                                type="button" style="width:95px; float: right; display: block">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
         {% endfor %} {% endif %}
     </div>
 </div>

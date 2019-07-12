@@ -1,0 +1,243 @@
+{% extends "../common/base.html" %}
+{% load static %}
+{% load humanize %}
+{% block title %}Budgets Page{% endblock %}
+{% block nav %}{% include 'budgets/budgetmodeldetailsnav.html' %}{% endblock %}
+
+{% block sidebar %}
+<aside class="main-sidebar col-12 col-md-3 col-lg-2 px-0">
+    <div class="main-navbar">
+        <nav class="navbar align-items-stretch navbar-light bg-white flex-md-nowrap border-bottom p-0">
+            <a class="navbar-brand w-100 mr-0" href="{% url 'index' %}" style="line-height: 25px;">
+                <div class="d-table m-auto">
+                    <img id="main-logo" class="d-inline-block align-top mr-1" style="max-width: 25px;"
+                        src="{% static "images/shards-dashboards-logo.svg" %}" alt="Shards Dashboard">
+                    <span class="d-none d-md-inline ml-1">Manager App</span>
+                </div>
+            </a>
+            <a class="toggle-sidebar d-sm-inline d-md-none d-lg-none">
+                <i class="material-icons">&#xE5C4;</i>
+            </a>
+        </nav>
+    </div>
+    <div class="nav-wrapper">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="{% url 'my_budgets'%}">
+                    <i class="material-icons">dashboard</i>
+                    <span>My Budgets</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'view_budget_models'%}">
+                    <i class="material-icons">dashboard</i>
+                    <span>My Time Allocations</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'view_budget_models'%}">
+                    <i class="material-icons">attach_money</i>
+                    <span>Budgets Models</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'view_time_models' %}">
+                    <i class="material-icons">access_time</i>
+                    <span>Time Models</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</aside>
+{% endblock %}
+{% block content %}
+<div class="modal fade" role="dialog" tabindex="-1" id="newincome">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">New Budget Model Income</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" role="form" action="{% url 'create_model_budget_income' model_budget_id %}"
+                    id="newmodelincome">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div id="successfail"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-12" id="message">
+                            <div class="form-group">
+                                <label for="from-name">Name</label>
+                                <span class="required-input">*</span>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-user-o"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" type="text" name="model_income_name" required=""
+                                        placeholder="Income Name" id="from-name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="from-name">Amount</label>
+                                <span class="required-input">*</span>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-user-o"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" type="number" name="model_income_amount" step="1"
+                                        required="" placeholder="Income Amount" id="from-amount">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <button class="btn btn-primary btn-block" type="reset">
+                                            <i class="fa fa-undo"></i> Reset</button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-primary btn-block" type="submit">Submit
+                                            <i class="fa fa-chevron-circle-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="d-flex d-md-none" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" role="dialog" tabindex="-1" id="newexpense">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">New Expense</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" role="form" action="{% url 'create_model_budget_expense' model_budget_id %}"
+                    id="newexpense">
+                    {% csrf_token %}
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div id="successfail"></div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-12" id="message">
+                            <div class="form-group">
+                                <label for="from-name">Name</label>
+                                <span class="required-input">*</span>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-user-o"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" type="text" name="model_expense_name" required=""
+                                        placeholder="Expense Name" id="from-name">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="from-name">Amount</label>
+                                <span class="required-input">*</span>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fa fa-user-o"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" type="number" name="model_expense_amount" step="1"
+                                        required="" placeholder="Expense Amount" id="from-amount">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <button class="btn btn-primary btn-block" type="reset">
+                                            <i class="fa fa-undo"></i> Reset</button>
+                                    </div>
+                                    <div class="col">
+                                        <button class="btn btn-primary btn-block" type="submit">Submit
+                                            <i class="fa fa-chevron-circle-right"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="d-flex d-md-none" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="main-content-container container-fluid px-4">
+    <!-- Page Header -->
+    <div class="page-header row no-gutters py-4">
+        <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+            <h3 class="page-title">{{ name }} Budget Model Incomes</h3>
+        </div>
+        <div class="col-12 col-sm-4 text-right text-sm-right mb-0">
+            {% include '../common/messages.html' %}
+        </div>
+    </div>
+    <div class="row">
+        {% if model_incomes %}
+        {% for model_income in model_incomes %}
+        <div class="col-lg col-md-6 col-sm-6 mb-4">
+            <div class="stats-small stats-small--1 card card-small">
+                <div class="card-body p-0 d-flex">
+                    <div class="d-flex flex-column m-auto">
+                        <div class="stats-small__data text-center">
+                            <span class="stats-small__label text-uppercase">{{ model_income.model_income_name}}</span>
+                            <h6 class="stats-small__value count my-3">Ksh. {{ model_income.model_income_amount }}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+    <div class="page-header row no-gutters py-4">
+        <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+            <h3 class="page-title">Model Expenses</h3>
+        </div>
+    </div>
+    <div class="row">
+        {% if model_expenses %}
+        {% for model_expense in model_expenses %}
+        <div class="col-lg col-md-6 col-sm-6 mb-4">
+            <div class="stats-small stats-small--1 card card-small">
+                <div class="card-body p-0 d-flex">
+                    <div class="d-flex flex-column m-auto">
+                        <div class="stats-small__data text-center">
+                            <span
+                                class="stats-small__label text-uppercase">{{ model_expense.model_expense_name }}</span>
+                            <h6 class="stats-small__value count my-3">Ksh. {{ model_expense.model_expense_amount }}</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+{% endblock content %}
